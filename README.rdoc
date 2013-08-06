@@ -1,12 +1,115 @@
+=== Ruby 1.9.3-p0 Failure
 https://github.com/rails/rails/issues/11691
 
+=== Reproduce
 Assuming you're using RVM:
 
     rvm install 1.9.3-p0
     rvm use 1.9.3-p0
+
     bundle install
     rake db:setup
     rake db:test:prepare
     
     rake test
     rspec
+
+The `TestCase` tests are included to show that this is related to Rspec.
+
+
+=== Backtrace
+
+    $ rspec -b
+
+    Warning: you should require 'minitest/autorun' instead.
+    Warning: or add 'gem "minitest"' before 'require "minitest/autorun"'
+    From:
+      /Users/bryan/.rvm/gems/ruby-1.9.3-p0/bundler/gems/rails-179deea65b7c/activesupport/lib/active_support/dependencies.rb:228:in `require'
+      /Users/bryan/.rvm/gems/ruby-1.9.3-p0/bundler/gems/rails-179deea65b7c/activesupport/lib/active_support/dependencies.rb:228:in `block in require'
+      /Users/bryan/.rvm/gems/ruby-1.9.3-p0/bundler/gems/rails-179deea65b7c/activesupport/lib/active_support/dependencies.rb:213:in `load_dependency'
+      /Users/bryan/.rvm/gems/ruby-1.9.3-p0/bundler/gems/rails-179deea65b7c/activesupport/lib/active_support/dependencies.rb:228:in `require'
+      /Users/bryan/.rvm/rubies/ruby-1.9.3-p0/lib/ruby/1.9.1/test/unit/assertions.rb:1:in `<top (required)>'
+      /Users/bryan/.rvm/gems/ruby-1.9.3-p0/bundler/gems/rails-179deea65b7c/activesupport/lib/active_support/dependencies.rb:228:in `require'
+      /Users/bryan/.rvm/gems/ruby-1.9.3-p0/bundler/gems/rails-179deea65b7c/activesupport/lib/active_support/dependencies.rb:228:in `block in require'
+      /Users/bryan/.rvm/gems/ruby-1.9.3-p0/bundler/gems/rails-179deea65b7c/activesupport/lib/active_support/dependencies.rb:213:in `load_dependency'
+      /Users/bryan/.rvm/gems/ruby-1.9.3-p0/bundler/gems/rails-179deea65b7c/activesupport/lib/active_support/dependencies.rb:228:in `require'
+      /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-rails-2.14.0/lib/rspec/rails/adapters.rb:3:in `<top (required)>'
+      /Users/bryan/.rvm/gems/ruby-1.9.3-p0/bundler/gems/rails-179deea65b7c/activesupport/lib/active_support/dependencies.rb:228:in `require'
+      /Users/bryan/.rvm/gems/ruby-1.9.3-p0/bundler/gems/rails-179deea65b7c/activesupport/lib/active_support/dependencies.rb:228:in `block in require'
+      /Users/bryan/.rvm/gems/ruby-1.9.3-p0/bundler/gems/rails-179deea65b7c/activesupport/lib/active_support/dependencies.rb:213:in `load_dependency'
+      /Users/bryan/.rvm/gems/ruby-1.9.3-p0/bundler/gems/rails-179deea65b7c/activesupport/lib/active_support/dependencies.rb:228:in `require'
+      /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-rails-2.14.0/lib/rspec/rails.rb:11:in `<top (required)>'
+      /Users/bryan/.rvm/gems/ruby-1.9.3-p0/bundler/gems/rails-179deea65b7c/activesupport/lib/active_support/dependencies.rb:228:in `require'
+      /Users/bryan/.rvm/gems/ruby-1.9.3-p0/bundler/gems/rails-179deea65b7c/activesupport/lib/active_support/dependencies.rb:228:in `block in require'
+      /Users/bryan/.rvm/gems/ruby-1.9.3-p0/bundler/gems/rails-179deea65b7c/activesupport/lib/active_support/dependencies.rb:213:in `load_dependency'
+      /Users/bryan/.rvm/gems/ruby-1.9.3-p0/bundler/gems/rails-179deea65b7c/activesupport/lib/active_support/dependencies.rb:228:in `require'
+      /Users/bryan/projects/examples/ruby-1.9.3-p0-failure/spec/spec_helper.rb:4:in `<top (required)>'
+      /Users/bryan/projects/examples/ruby-1.9.3-p0-failure/spec/controllers/users_controller_spec.rb:1:in `require'
+      /Users/bryan/projects/examples/ruby-1.9.3-p0-failure/spec/controllers/users_controller_spec.rb:1:in `<top (required)>'
+      /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-core-2.14.4/lib/rspec/core/configuration.rb:896:in `load'
+      /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-core-2.14.4/lib/rspec/core/configuration.rb:896:in `block in load_spec_files'
+      /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-core-2.14.4/lib/rspec/core/configuration.rb:896:in `each'
+      /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-core-2.14.4/lib/rspec/core/configuration.rb:896:in `load_spec_files'
+      /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-core-2.14.4/lib/rspec/core/command_line.rb:22:in `run'
+      /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-core-2.14.4/lib/rspec/core/runner.rb:80:in `run'
+      /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-core-2.14.4/lib/rspec/core/runner.rb:17:in `block in autorun'
+
+    UsersController
+      renders the partial for each user (FAILED - 1)
+      renders the index template
+
+    Failures:
+
+      1) UsersController renders the partial for each user
+         Failure/Error: response.should render_template partial: 'user'
+         NameError:
+           uninitialized constant Minitest::MINI_DIR
+         # /Users/bryan/.rvm/rubies/ruby-1.9.3-p0/lib/ruby/1.9.1/test/unit/assertions.rb:253:in `assert_respond_to'
+         # /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/minitest-5.0.6/lib/minitest/assertions.rb:189:in `assert_includes'
+         # /Users/bryan/.rvm/gems/ruby-1.9.3-p0/bundler/gems/rails-179deea65b7c/actionpack/lib/action_controller/test_case.rb:164:in `assert_template'
+         # /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-expectations-2.14.0/lib/rspec/matchers/built_in/base_matcher.rb:31:in `match_unless_raises'
+         # /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-expectations-2.14.0/lib/rspec/expectations/handler.rb:24:in `handle_matcher'
+         # /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-expectations-2.14.0/lib/rspec/expectations/syntax.rb:53:in `should'
+         # ./spec/controllers/users_controller_spec.rb:12:in `block (2 levels) in <top (required)>'
+         # /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-core-2.14.4/lib/rspec/core/example.rb:114:in `instance_eval'
+         # /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-core-2.14.4/lib/rspec/core/example.rb:114:in `block in run'
+         # /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-core-2.14.4/lib/rspec/core/extensions/instance_eval_with_args.rb:16:in `instance_exec'
+         # /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-core-2.14.4/lib/rspec/core/extensions/instance_eval_with_args.rb:16:in `instance_eval_with_args'
+         # /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-core-2.14.4/lib/rspec/core/example.rb:247:in `instance_eval_with_args'
+         # /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-core-2.14.4/lib/rspec/core/hooks.rb:87:in `block (2 levels) in run'
+         # /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-core-2.14.4/lib/rspec/core/example.rb:179:in `call'
+         # /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-core-2.14.4/lib/rspec/core/example.rb:179:in `run'
+         # /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-core-2.14.4/lib/rspec/core/extensions/instance_eval_with_args.rb:16:in `instance_exec'
+         # /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-core-2.14.4/lib/rspec/core/extensions/instance_eval_with_args.rb:16:in `instance_eval_with_args'
+         # /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-core-2.14.4/lib/rspec/core/example.rb:247:in `instance_eval_with_args'
+         # /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-core-2.14.4/lib/rspec/core/hooks.rb:87:in `block (2 levels) in run'
+         # /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-core-2.14.4/lib/rspec/core/hooks.rb:85:in `call'
+         # /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-core-2.14.4/lib/rspec/core/hooks.rb:85:in `run'
+         # /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-core-2.14.4/lib/rspec/core/hooks.rb:427:in `run_hook'
+         # /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-core-2.14.4/lib/rspec/core/example_group.rb:339:in `run_around_each_hooks'
+         # /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-core-2.14.4/lib/rspec/core/example.rb:256:in `with_around_each_hooks'
+         # /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-core-2.14.4/lib/rspec/core/example.rb:111:in `run'
+         # /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-core-2.14.4/lib/rspec/core/example_group.rb:400:in `block in run_examples'
+         # /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-core-2.14.4/lib/rspec/core/example_group.rb:396:in `map'
+         # /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-core-2.14.4/lib/rspec/core/example_group.rb:396:in `run_examples'
+         # /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-core-2.14.4/lib/rspec/core/example_group.rb:381:in `run'
+         # /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-core-2.14.4/lib/rspec/core/command_line.rb:28:in `block (2 levels) in run'
+         # /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-core-2.14.4/lib/rspec/core/command_line.rb:28:in `map'
+         # /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-core-2.14.4/lib/rspec/core/command_line.rb:28:in `block in run'
+         # /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-core-2.14.4/lib/rspec/core/reporter.rb:58:in `report'
+         # /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-core-2.14.4/lib/rspec/core/command_line.rb:25:in `run'
+         # /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-core-2.14.4/lib/rspec/core/runner.rb:80:in `run'
+         # /Users/bryan/.rvm/gems/ruby-1.9.3-p0/gems/rspec-core-2.14.4/lib/rspec/core/runner.rb:17:in `block in autorun'
+
+    Top 2 slowest examples (0.04326 seconds, 100.0% of total time):
+      UsersController renders the partial for each user
+        0.04042 seconds ./spec/controllers/users_controller_spec.rb:9
+      UsersController renders the index template
+        0.00284 seconds ./spec/controllers/users_controller_spec.rb:4
+
+    Finished in 0.04559 seconds
+    2 examples, 1 failure
+
+    Failed examples:
+
+    rspec ./spec/controllers/users_controller_spec.rb:9 # UsersController renders the partial for each user
